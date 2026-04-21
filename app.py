@@ -12,12 +12,7 @@ app = Flask(__name__)
 
 # ---------------- CONFIG ----------------
 DATA_PATH = "data.csv"
-# Vercel has a read-only filesystem, except for /tmp
-if os.environ.get("VERCEL"):
-    PLOT_DIR = "/tmp/plots"
-else:
-    PLOT_DIR = os.path.join("static", "plots")
-
+PLOT_DIR = os.path.join("static", "plots")
 os.makedirs(PLOT_DIR, exist_ok=True)
 
 # Performance knobs
@@ -331,13 +326,13 @@ sna_metrics = compute_sna_metrics()
 @app.route("/")
 def dashboard():
     chart_data = {
-        "founded_per_year": {"img": url_for('serve_plot', filename="founded_per_year.png")},
-        "top_cities": {"img": url_for('serve_plot', filename="top_10_cities.png")},
-        "top_industries": {"img": url_for('serve_plot', filename="top_10_industries.png")},
-        "network_img": {"img": url_for('serve_plot', filename="network_sampled_color.png")},
-        "wordcloud_img": {"img": url_for('serve_plot', filename="wordcloud.png")},
-        "city_industry_img": {"img": url_for('serve_plot', filename="top_city_industry.png")},
-        "year_by_city_trends_img": {"img": url_for('serve_plot', filename="year_by_city_trends.png")},
+        "founded_per_year": {"img": url_for('static', filename="plots/founded_per_year.png")},
+        "top_cities": {"img": url_for('static', filename="plots/top_10_cities.png")},
+        "top_industries": {"img": url_for('static', filename="plots/top_10_industries.png")},
+        "network_img": {"img": url_for('static', filename="plots/network_sampled_color.png")},
+        "wordcloud_img": {"img": url_for('static', filename="plots/wordcloud.png")},
+        "city_industry_img": {"img": url_for('static', filename="plots/top_city_industry.png")},
+        "year_by_city_trends_img": {"img": url_for('static', filename="plots/year_by_city_trends.png")},
         "degree": sna_metrics["degree"],
         "betweenness": sna_metrics["betweenness"],
         "kcore": sna_metrics["kcore"],
@@ -355,13 +350,6 @@ def dashboard():
     }
 
     return render_template("dashboard.html", chart_data=chart_data, kpi=kpi)
-
-
-# ---------------- SERVE PLOTS ----------------
-@app.route("/plots/<path:filename>")
-def serve_plot(filename):
-    from flask import send_from_directory
-    return send_from_directory(PLOT_DIR, filename)
 
 
 # ---------------- API ROUTES ----------------
