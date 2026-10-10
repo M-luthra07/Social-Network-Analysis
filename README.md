@@ -1,7 +1,6 @@
 # Social Network Analysis Dashboard
 
-A comprehensive web application for analyzing and visualizing startup ecosystems. This tool processes company data to generate interactive network graphs, statistical plots, and social network analysis (SNA) metrics.
-
+A comprehensive web application for analyzing and visualizing startup ecosystems. This tool processes company data to generate interactive network graphs, statistical plots, and social network analysis (SNA) metrics.The application is live on Render: https://social-network-analysis-1.onrender.com/ 
 ## 🚀 Features
 
 - **Interactive Network Visualization**: Explore connections between companies and industries using a dynamic graph (powered by Vis.js).
